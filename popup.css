@@ -1,0 +1,41 @@
+* {
+  font-family:Arial,Helvetica,sans-serif;
+}
+	
+body {
+  margin: 5px;
+  padding: 5px;
+  opacity: 1.0;
+}
+
+input {
+  width: 400px;
+  height: 22px;
+  border: 3px solid #f7ab2d;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.responseDisplay {
+  color: #5db5dc;
+  font-size: 12px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #eaeaea;
+}
+
+li {
+  border-bottom: 1px solid #eaeaea;
+  margin: 5px 0 5px 0;
+}
+
+.wolframAlphaPage {
+  margin: 0 auto;
+  text-align: center;
+  font-size: 14px;
+}
+

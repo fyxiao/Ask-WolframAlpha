@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+
+    "name": "AskWolframAlpha",
+    "description": "Use WolframAlpha to answer your questions without leaving the extension window.",
+
+    "version": "1.0",
+
+    "permissions": [
+        "http://api.wolframalpha.com/"
+    ],
+
+    "browser_action": {
+        "default_icon": "wolframAlpha.png",
+        "default_popup": "popup.html"
+    }
+    
+}
+
