@@ -19,13 +19,24 @@ input {
 .responseDisplay {
   color: #5db5dc;
   font-size: 12px;
+  margin: 5px;
+  padding: 5px;
+}
+
+#alertMessage {
+  text-align: center;
+}
+
+#progressDisplay {
+  margin-left: auto;
+  margin-right: auto;
+  width: 32px;
 }
 
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid #eaeaea;
 }
 
 li {

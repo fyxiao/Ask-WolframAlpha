@@ -1,9 +1,5 @@
-// A developer API key that you can get from http://products.wolframalpha.com/api/
-var apiKey = '<provide your API key here>'
-// The base URL for WolframAlpha queries.
-var waAPIURL = 'http://api.wolframalpha.com/v2/query?appid=' + apiKey + '&input='
-// Public URL for wolframAlpha response page.
-var waPublicURL = 'http://www.wolframalpha.com/input/?i=';
+// URL base for WolframAlpha queries.
+var waQueryURL = 'http://www.wolframalpha.com/input/?i=';
 
 // Avoid typing 'getElementById()'.
 var $ = function(id)
@@ -18,55 +14,113 @@ function clear(parent)
     parent.removeChild(parent.firstChild);
 }
 
+// Clear the popup display.
+function clearDisplay()
+{
+  clear($('wolframAlphaResponses'));
+  clear($('linkToWolframAlpha'));
+  clear($('progressDisplay'));
+  clear($('alertMessage'));
+}
+
+// Progress animation. 
+function showProgress() {
+  // Clear the previous results.
+  clearDisplay();
+  // Show a progress wheel.
+  var progressDisplay = $('progressDisplay');
+  var progress = document.createElement('img');
+  progress.src = 'computing.gif';
+  progressDisplay.appendChild(progress);
+}
+
+// Load the results of the previous user query.
+function loadPrev()
+{
+  var prevSearch = localStorage.prevSearch;
+  if (prevSearch) {
+    console.log('found saved: ' + prevSearch);
+    $('userQuery').value = prevSearch;
+  }
+  var prevResponseHTML = localStorage.prevResponseHTML;
+  if (prevResponseHTML) {
+    $('wolframAlphaResponses').innerHTML = prevResponseHTML;
+  }
+  var prevLinkHTML = localStorage.prevLinkHTML;
+  if (prevLinkHTML) {
+    $('linkToWolframAlpha').innerHTML = prevLinkHTML;
+  }
+  var prevAlertHTML = localStorage.prevAlertHTML;
+  if (prevLinkHTML) {
+    $('alertMessage').innerHTML = prevAlertHTML;
+  }
+}
+
 // Function that does all of the work of querying WolframAlpha.
 function queryWA()
 {
-  // Create and send request to WolframAlpha
-  queryURL = waAPIURL + encodeURIComponent(document.getElementById('userQuery').value);
-  publicQueryURL = waPublicURL + encodeURIComponent($('userQuery').value);
+  queryURL = waQueryURL + encodeURIComponent($('userQuery').value);
   var req = new XMLHttpRequest();
+  req.addEventListener('loadstart', showProgress, false);
   req.open("GET", queryURL, true);
-  // Handle the response
   req.onload = function (e) {
-    if (req.readyState === 4) {
-      if (req.status === 200) {
-        var responseDisplay = $('wolframAlphaResponses');
-        var responseLink = $('linkToWolframAlpha');
-        clear(responseDisplay);
-        clear(responseLink);
-        var pods = req.responseXML.getElementsByTagName('pod');
-        // The responses are divided into pods which we process individually
-        for (var i=0; i<pods.length; i++) {
-          var images = pods[i].getElementsByTagName('img');
-          var title = pods[i].getAttribute('title');
-          var pod = document.createElement('li');
-          pod.innerHTML = title + '<br>';
-          for (var j=0; j<images.length; j++) {
-            var child = document.createElement('img');
-            child.src = images[j].getAttribute('src');
-            pod.appendChild(child);
-          }
-          responseDisplay.appendChild(pod);
+    if (req.readyState === 4 && req.status === 200) {
+      // Clear the progress bar.
+      clearDisplay();
+      // Parts of the display that will be manipulated.
+      var wolframAlphaResponses = $('wolframAlphaResponses');
+      var responseLink = $('linkToWolframAlpha');
+      var alertNotice = $('alertMessage');
+      // Parse and display results from WolframAlpha.
+      respXML = new DOMParser().parseFromString(req.responseText, 'text/html');
+      var pods = respXML.getElementsByClassName('pod');
+      for (var i=0; i<pods.length; i++) {
+        // Only interested in elements that are just members of the 'pod' class.
+        if (pods[i].className != 'pod ') {
+          continue;
         }
-        // Provide a link to the WolframAlpha response page
-        var link = document.createElement('a');
-        link.setAttribute('href', publicQueryURL);
-        link.setAttribute('target', '_blank');
-        link.innerHTML = 'Link to WolframAlpha Response';
-        $('linkToWolframAlpha').appendChild(link);
-      } 
-    } 
+        var images = pods[i].getElementsByTagName('img');
+        var title = pods[i].getElementsByTagName('h2')[0].innerText;
+        var pod = document.createElement('li');
+        pod.innerHTML = title + '<br>';
+        for (var j=0; j<images.length; j++) {
+          var child = document.createElement('img');
+          child.src = images[j].getAttribute('src');
+          pod.appendChild(child);
+        }
+        wolframAlphaResponses.appendChild(pod);
+      }
+      // Handle case where we have zero results.
+      if (pods.length == 0) {
+        var alertNotice = $('alertMessage');
+        var zeroResultsNotice = document.createElement('h4');
+        zeroResultsNotice.innerText = 'Sorry, there were zero results returned \
+          by Wolfram Alpha.';
+        alertNotice.appendChild(zeroResultsNotice);
+      }
+      var link = document.createElement('a');
+      link.setAttribute('href', queryURL);
+      link.setAttribute('target', '_blank');
+      link.innerHTML = 'Link to WolframAlpha Result Page';
+      responseLink.appendChild(link);
+      localStorage.prevResponseHTML = wolframAlphaResponses.innerHTML;
+      localStorage.prevAlertHTML = alertNotice.innerHTML;
+      localStorage.prevLinkHTML = responseLink.innerHTML;
+    }
   };
   req.send(null);
+  localStorage.prevSearch = $('userQuery').value;
+  console.log('saved ' + localStorage.prevSearch);
 }
 
 // Execution entry point.
 document.addEventListener('DOMContentLoaded', 
   function () 
   {
+    loadPrev();
     $('userQuery').addEventListener('keypress', 
-      function () { if (event.keyCode == 13) { event.preventDefault(); queryWA(); } });
+      function () { 
+        if (event.keyCode == 13) { event.preventDefault(); queryWA(); }
+      });
   }
 );
-
-
