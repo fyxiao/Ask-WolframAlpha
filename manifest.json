@@ -2,9 +2,9 @@
     "manifest_version": 2,
 
     "name": "AskWolframAlpha",
-    "description": "Use WolframAlpha to answer your questions without ever leaving the extension popup window.",
+    "description": "Use WolframAlpha to answer your questions.",
 
-    "version": "1.0",
+    "version": “1.0.1",
 
     "icons": { 
         "16": "wolframAlpha16.png",
