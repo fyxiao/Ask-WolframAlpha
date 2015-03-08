@@ -7,13 +7,17 @@
   </head>
     
   <body>
-    <div class="inputForm">
-      <form id="wolframAlphaForm">
-        <input id="userQuery" type="text"/>
-      </form>
-      <input type="button" id="backButton" value="Back">
-      <input type="button" id="forwardButton" value="Forward">
-    </div>
+    <table class="controls">
+      <tr>
+        <td><button type='submit' id="backButton">Back</button></td>
+        <td><button type='submit' id="forwardButton">Forward</button></td>
+        <td>
+          <form id="wolframAlphaForm">
+            <input id="userQuery" type="text"/>
+          </form>
+        </td>
+      </tr>
+    </table>
     
     <div class="responseDisplay">
       <ul id="wolframAlphaResponses"></ul>

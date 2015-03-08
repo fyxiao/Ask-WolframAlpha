@@ -1,52 +1,75 @@
 * {
   font-family:Arial,Helvetica,sans-serif;
 }
-	
+
 body {
-  margin: 5px;
-  padding: 5px;
+  margin: 0px;
+  min-width: 475px;
+  padding: 0px;
   opacity: 1.0;
 }
 
-input {
-  width: 400px;
-  height: 22px;
+.alertMessage {
+  margin: 5px;
+  text-align: center;
+}
+
+.controls {
+  margin: 5px;
+  padding: 0px;
+}
+
+.controls button {
+  margin: 1px; 
+}
+
+.controls table {
+  margin: 0px;
+  padding: 0px;
+}
+
+.controls tr, td {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
+
+.controls form {
+  display: table;
+  margin: 0px;
+  text-align: center;
+}
+
+.controls input {
   border: 3px solid #f7ab2d;
   border-radius: 10px;
   font-size: 14px;
+  margin: 2px;
+}
+
+.progressDisplay {
+  margin: 5px;
 }
 
 .responseDisplay {
   color: #5db5dc;
   font-size: 12px;
   margin: 5px;
-  padding: 5px;
-}
-
-#alertMessage {
-  text-align: center;
-}
-
-#progressDisplay {
-  margin-left: auto;
-  margin-right: auto;
-  width: 32px;
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  border-bottom: 1px solid #eaeaea;
-  margin: 5px 0 5px 0;
 }
 
 .wolframAlphaPage {
-  margin: 0 auto;
+  margin: 5px;
   text-align: center;
   font-size: 14px;
 }
 
+li {
+  border-bottom: 1px solid #eaeaea;
+  margin: 5px 0px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
