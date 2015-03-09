@@ -45,10 +45,13 @@ body {
   border-radius: 10px;
   font-size: 14px;
   margin: 2px;
+  width: 400px;
 }
 
-.progressDisplay {
+#progressDisplay {
   margin: 5px;
+  padding: 0px;
+  text-align: center;
 }
 
 .responseDisplay {

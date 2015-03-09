@@ -4,7 +4,7 @@
     "name": "AskWolframAlpha",
     "description": "Use WolframAlpha to answer your questions.",
 
-    "version": “1.0.1",
+    "version": "1.1",
 
     "icons": { 
         "16": "wolframAlpha16.png",

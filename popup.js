@@ -182,8 +182,8 @@ document.addEventListener('DOMContentLoaded',
         }
       });
 
-    document.getElementById("backButton").addEventListener("click", goBack);
-    document.getElementById("forwardButton").addEventListener("click", goForward);
+    document.getElementById('backButton').addEventListener('click', goBack);
+    document.getElementById('forwardButton').addEventListener('click', goForward);
     localStorage.clear();
   }
 );
